@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+      <div id ='root'>
+
+      </div>
+
+      <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+      <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+      <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+     <script type="text/babel">
+
+
+        const rootHandler = document.getElementById('root')
+          
+        class UsersList extends React.Component {
+
+
+             // first constructor will called 
+             // then render 
+             //then lifecyle methods
+
+             // then event handler 
+             // render
+
+             constructor(){
+                console.log('constructor')
+                super()
+                this.state = {
+                    user : [],
+                    count : 0
+                }
+             }
+                
+             // life-cycle method - will get called only after the first render
+              componentDidMount(){ 
+                console.log('component did mount ')
+                const url = `https://jsonplaceholder.typicode.com/users`
+                const xhr = new XMLHttpRequest()
+                 xhr.open('GET' , url)
+                 xhr.send()
+
+                 xhr.onload=()=>{
+                 const users = JSON.parse(xhr.responseText)
+                 this.setState({user : users})
+                 }
+
+              }
+
+              handlePlus=()=>{
+                 console.log('plus')
+
+                 this.setState(function(prevState){
+                    return {
+                        count : prevState.count + 1
+                    }
+                     
+                 })
+
+              }
+            render(){
+                console.log('render')
+                return <div>
+                     <h1> Listing users - {this.state.user.length}</h1>
+                      <h2>{this.state.count}</h2>
+                      <button onClick={this.handlePlus}> + </button>
+                      <ul>
+                      {this.state.user.map((ele)=>{
+                          return <li key={ele.id}> {ele.name} </li>
+                      })}
+                      </ul>
+                    </div>
+            }
+        }
+        
+         ReactDOM.render( <UsersList/> ,  rootHandler)
+     </script>
+</body>
+</html>

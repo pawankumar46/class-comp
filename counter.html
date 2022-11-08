@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+      <div id ='root'>
+
+      </div>
+
+      <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+      <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+      <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+     <script type="text/babel">
+
+
+        const rootHandler = document.getElementById('root')
+          
+        class Counter extends React.Component {
+           constructor(){
+             // constructor is used to set the initial values of our properties
+              super()
+             this.state ={
+                 value : 10  // any data that we store inside a component must be inside state
+             }
+           }
+
+           handleUp=()=>{
+            // can we update the state directly =-- yes 
+            // should we update the state directly -- no 
+            //this.state.value += 1
+
+            // why
+           // if we change directly , state value changes but changed value wont display in Ui . bez component is not rerendered
+            
+
+           // how -- by using setState (setState only inside class component)
+            // it helps us state value and rerenders the component
+            
+             this.setState(function(prevstate){
+                return {
+                    value : prevstate.value + 1
+                }
+             })
+           }
+
+           handleDown=()=>{
+             this.setState(function(prevState){
+                return {
+                    value : prevState.value -1
+                }
+             })
+           }
+
+           handleReset=()=>{
+             this.setState(function(prevState){
+                return {
+                    value : 0
+                }
+             })
+           }
+            render(){
+                return (
+                    <div style={{textAlign : 'center'}}>
+                        <h2>{this.state.value}</h2>
+                        <button onClick={this.handleUp} > up </button>
+                        <button onClick={this.handleDown}> down</button>
+                        <button onClick={this.handleReset}> reset</button>
+                    </div>
+                )
+            }
+        }
+          
+         ReactDOM.render( <Counter/> ,  rootHandler)
+     </script>
+</body>
+</html>
